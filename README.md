@@ -1,8 +1,8 @@
 # Calendar-UI
 This project demonstrates the design process from user data all the way to a working prototype. For this project, the goal is to create a prototype that improves user experience when create a calendar. Below are the various steps with images and short descriptions to highlight the most imporant takeaways. 
 ## Step 1: Gathering Data
-![Screenshot (155)](https://github.com/user-attachments/assets/b431c3bb-1d20-4957-9b54-a420bae47865)
-![Matt User Journey Map-1_page-0001](https://github.com/user-attachments/assets/ea52df21-33ed-4729-b968-6af3f37bde87)
+<img width="1000" alt="Screenshot (155)" src="https://github.com/user-attachments/assets/b431c3bb-1d20-4957-9b54-a420bae47865" />
+<img width="1000" alt="Matt User Journey Map-1_page-0001" src="https://github.com/user-attachments/assets/ea52df21-33ed-4729-b968-6af3f37bde87" />
 
 After Conducting Contextual inquiry interviews to gather user data, I constructed data models to organize and pinpoint the key aspects for my design. 
 ## Step 2: Creating low-fidelity prototypes
