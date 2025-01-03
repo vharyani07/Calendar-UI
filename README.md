@@ -7,7 +7,7 @@ This project demonstrates the design process from user data all the way to a wor
 After Conducting Contextual inquiry interviews to gather user data, I constructed data models to organize and pinpoint the key aspects for my design. 
 ## Step 2: Creating low-fidelity prototypes
 <img width="1440" alt="LowFidelityPrototypeCalendar(3)" src="https://github.com/user-attachments/assets/6744255d-c880-4a02-b7ef-0eaa65e692ba" />
-![LowFidelity_NotepadPrototype](https://github.com/user-attachments/assets/36b67880-a595-4b57-b9ce-9947b159f6c0)
+![LowFidelity_NotepadPrototype](https://github.com/user-attachments/assets/f0e2293f-d903-4aa0-9aab-8c88b6936dff)
 ![Horizontal low-fi prototype-3_page-0001](https://github.com/user-attachments/assets/b4aa439d-6144-4535-96ad-ef3502e53e1b)
 
 After gathering and analyzing user data, I created low-fidelity prototypes to have the blueprint/foundation for my final design. These prototypes simplify the process of creating a final prototype as they provide an effective outline to follow. 
