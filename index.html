@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <!-- Task Modal -->
+    <!-- Task Add Modal -->
     <div id="task-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -73,6 +73,52 @@
                 </div>
                 
                 <button type="submit" class="submit-btn">Add Task</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Task Edit Modal -->
+    <div id="task-edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Task</h2>
+            <form id="task-edit-form">
+                <div class="form-group">
+                    <label for="task-edit-title">Task Title:</label>
+                    <input type="text" id="task-edit-title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="task-edit-date">Date:</label>
+                    <input type="date" id="task-edit-date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="task-edit-type">Task Type:</label>
+                    <select id="task-edit-type">
+                        <option value="meeting">Meeting</option>
+                        <option value="assignment">Assignment</option>
+                        <option value="project">Project</option>
+                        <option value="work">Work</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Priority:</label>
+                    <div class="star-rating" id="edit-star-rating">
+                        <span class="star" data-rating="1">★</span>
+                        <span class="star" data-rating="2">★</span>
+                        <span class="star" data-rating="3">★</span>
+                    </div>
+                    <input type="hidden" id="task-edit-priority" value="0">
+                </div>
+                
+                <input type="hidden" id="task-edit-index" value="">
+                
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Update Task</button>
+                    <button type="button" id="delete-task" class="delete-btn">Delete Task</button>
+                </div>
             </form>
         </div>
     </div>

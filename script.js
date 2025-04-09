@@ -1,29 +1,36 @@
+// Add debug console log for clicking event
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.event')) {
+        console.log('Event clicked:', e.target.closest('.event'));
+    }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
-    let currentDate = new Date();
-    let currentMonth = currentDate.getMonth();
-    let currentYear = currentDate.getFullYear();
+    // Declare these variables in global scope for the file
+    window.currentMonth = new Date().getMonth();
+    window.currentYear = new Date().getFullYear();
     let tasks = loadTasks();
     
     // Initialize calendar
-    renderCalendar(currentMonth, currentYear);
+    renderCalendar(window.currentMonth, window.currentYear);
     
     // Add event listeners for month navigation
     document.getElementById('prev-month').addEventListener('click', function() {
-        currentMonth--;
-        if (currentMonth < 0) {
-            currentMonth = 11;
-            currentYear--;
+        window.currentMonth--;
+        if (window.currentMonth < 0) {
+            window.currentMonth = 11;
+            window.currentYear--;
         }
-        renderCalendar(currentMonth, currentYear);
+        renderCalendar(window.currentMonth, window.currentYear);
     });
     
     document.getElementById('next-month').addEventListener('click', function() {
-        currentMonth++;
-        if (currentMonth > 11) {
-            currentMonth = 0;
-            currentYear++;
+        window.currentMonth++;
+        if (window.currentMonth > 11) {
+            window.currentMonth = 0;
+            window.currentYear++;
         }
-        renderCalendar(currentMonth, currentYear);
+        renderCalendar(window.currentMonth, window.currentYear);
     });
     
     // Add Task Modal
@@ -48,37 +55,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Star Rating Functionality
-    const stars = document.querySelectorAll('.star');
-    let currentRating = 0;
-    
-    stars.forEach(star => {
-        star.addEventListener('click', function() {
-            const rating = parseInt(this.getAttribute('data-rating'));
-            setRating(rating);
-        });
-        
-        star.addEventListener('mouseover', function() {
-            const rating = parseInt(this.getAttribute('data-rating'));
-            highlightStars(rating);
-        });
-        
-        star.addEventListener('mouseout', function() {
-            highlightStars(currentRating);
-        });
-    });
-    
-    function highlightStars(rating) {
-        stars.forEach(star => {
-            const starRating = parseInt(star.getAttribute('data-rating'));
-            star.classList.toggle('active', starRating <= rating);
-        });
-    }
-    
-    function setRating(rating) {
-        currentRating = rating;
-        document.getElementById('task-priority').value = rating;
-        highlightStars(rating);
-    }
+    initializeStarRating('.star', 'task-priority');
+    initializeStarRating('#edit-star-rating .star', 'task-edit-priority');
     
     // Task Form Submit
     document.getElementById('task-form').addEventListener('submit', function(e) {
@@ -107,11 +85,65 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Reset form and close modal
         document.getElementById('task-form').reset();
-        setRating(0);
+        resetStarRating('.star');
         taskModal.style.display = 'none';
         
         // Re-render calendar
-        renderCalendar(currentMonth, currentYear);
+        renderCalendar(window.currentMonth, window.currentYear);
+    });
+    
+    // Task Edit Modal
+    const taskEditModal = document.getElementById('task-edit-modal');
+    const closeTaskEditModal = document.querySelector('#task-edit-modal .close');
+    
+    closeTaskEditModal.addEventListener('click', function() {
+        taskEditModal.style.display = 'none';
+    });
+    
+    window.addEventListener('click', function(event) {
+        if (event.target == taskEditModal) {
+            taskEditModal.style.display = 'none';
+        }
+    });
+    
+    // Task Edit Form Submit
+    document.getElementById('task-edit-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const title = document.getElementById('task-edit-title').value;
+        const date = document.getElementById('task-edit-date').value;
+        const type = document.getElementById('task-edit-type').value;
+        const priority = document.getElementById('task-edit-priority').value;
+        const index = parseInt(document.getElementById('task-edit-index').value);
+        
+        if (!title || !date) {
+            alert('Please fill in all required fields');
+            return;
+        }
+        
+        // Update task
+        updateTask(index, {
+            title: title,
+            date: date,
+            type: type,
+            priority: priority
+        });
+        
+        // Close modal
+        taskEditModal.style.display = 'none';
+        
+        // Re-render calendar
+        renderCalendar(window.currentMonth, window.currentYear);
+    });
+    
+    // Delete Task Button
+    document.getElementById('delete-task').addEventListener('click', function() {
+        const index = parseInt(document.getElementById('task-edit-index').value);
+        deleteTask(index);
+        taskEditModal.style.display = 'none';
+        
+        // Re-render calendar
+        renderCalendar(window.currentMonth, window.currentYear);
     });
 });
 
@@ -162,7 +194,7 @@ function renderCalendar(month, year) {
         
         dayTasks.forEach(task => {
             const starRating = '★'.repeat(parseInt(task.priority));
-            addEventToDay(dayElement, task.title, task.type, starRating);
+            addEventToDay(dayElement, task, starRating);
         });
         
         calendarGrid.appendChild(dayElement);
@@ -222,13 +254,13 @@ function createDayElement(dayNumber, differentMonth, month, year) {
     return dayElement;
 }
 
-function addEventToDay(dayElement, eventText, eventType, priority) {
+function addEventToDay(dayElement, task, priority) {
     const eventElement = document.createElement('div');
-    eventElement.className = `event ${eventType}`;
+    eventElement.className = `event ${task.type}`;
     
     const eventContent = document.createElement('div');
     eventContent.className = 'event-content';
-    eventContent.textContent = eventText;
+    eventContent.textContent = task.title;
     eventElement.appendChild(eventContent);
     
     const priorityElement = document.createElement('div');
@@ -236,7 +268,84 @@ function addEventToDay(dayElement, eventText, eventType, priority) {
     priorityElement.innerHTML = `Priority: ${priority}`;
     eventElement.appendChild(priorityElement);
     
+    // Store the task index for easy reference
+    const tasks = loadTasks();
+    const taskIndex = tasks.findIndex(t => 
+        t.title === task.title && 
+        t.date === task.date && 
+        t.type === task.type
+    );
+    
+    eventElement.setAttribute('data-task-index', taskIndex);
+    
+    // Add click event listener to open edit modal
+    eventElement.addEventListener('click', function(e) {
+        e.stopPropagation(); // Prevent triggering the day click event
+        const index = parseInt(this.getAttribute('data-task-index'));
+        
+        if (index >= 0) {
+            const tasks = loadTasks();
+            if (index < tasks.length) {
+                openTaskEditModal(tasks[index], index);
+            }
+        }
+    });
+    
     dayElement.appendChild(eventElement);
+}
+
+// Initialize star rating functionality
+function initializeStarRating(selector, hiddenInputId) {
+    const stars = document.querySelectorAll(selector);
+    let currentRating = 0;
+    
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            const rating = parseInt(this.getAttribute('data-rating'));
+            currentRating = rating;
+            document.getElementById(hiddenInputId).value = rating;
+            
+            stars.forEach(s => {
+                const starRating = parseInt(s.getAttribute('data-rating'));
+                s.classList.toggle('active', starRating <= rating);
+            });
+        });
+        
+        star.addEventListener('mouseover', function() {
+            const rating = parseInt(this.getAttribute('data-rating'));
+            
+            stars.forEach(s => {
+                const starRating = parseInt(s.getAttribute('data-rating'));
+                s.classList.toggle('active', starRating <= rating);
+            });
+        });
+        
+        star.addEventListener('mouseout', function() {
+            stars.forEach(s => {
+                const starRating = parseInt(s.getAttribute('data-rating'));
+                s.classList.toggle('active', starRating <= currentRating);
+            });
+        });
+    });
+}
+
+// Reset star rating
+function resetStarRating(selector) {
+    const stars = document.querySelectorAll(selector);
+    stars.forEach(star => {
+        star.classList.remove('active');
+    });
+}
+
+// Set star rating programmatically
+function setStarRating(selector, hiddenInputId, rating) {
+    const stars = document.querySelectorAll(selector);
+    document.getElementById(hiddenInputId).value = rating;
+    
+    stars.forEach(star => {
+        const starRating = parseInt(star.getAttribute('data-rating'));
+        star.classList.toggle('active', starRating <= rating);
+    });
 }
 
 // Task Storage Functions
@@ -255,6 +364,22 @@ function addTask(task) {
     saveTasks(tasks);
 }
 
+function updateTask(index, updatedTask) {
+    const tasks = loadTasks();
+    if (index >= 0 && index < tasks.length) {
+        tasks[index] = updatedTask;
+        saveTasks(tasks);
+    }
+}
+
+function deleteTask(index) {
+    const tasks = loadTasks();
+    if (index >= 0 && index < tasks.length) {
+        tasks.splice(index, 1);
+        saveTasks(tasks);
+    }
+}
+
 function getTasksForDate(dateString) {
     const tasks = loadTasks();
     return tasks.filter(task => task.date === dateString);
@@ -265,4 +390,19 @@ function formatDateString(year, month, day) {
     const monthStr = String(month + 1).padStart(2, '0');
     const dayStr = String(day).padStart(2, '0');
     return `${year}-${monthStr}-${dayStr}`;
+}
+
+function openTaskEditModal(task, taskIndex) {
+    // Set form values
+    document.getElementById('task-edit-title').value = task.title;
+    document.getElementById('task-edit-date').value = task.date;
+    document.getElementById('task-edit-type').value = task.type;
+    document.getElementById('task-edit-index').value = taskIndex;
+    
+    // Set priority stars
+    const priority = parseInt(task.priority) || 0;
+    setStarRating('#edit-star-rating .star', 'task-edit-priority', priority);
+    
+    // Show modal
+    document.getElementById('task-edit-modal').style.display = 'block';
 }
