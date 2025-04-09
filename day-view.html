@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day View - Calendar UI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="calendar-container">
+        <div class="day-view">
+            <header class="day-header">
+                <button class="return-btn" onclick="window.location.href='index.html'">Return to Main Menu</button>
+                <div class="date-display">
+                    <h1 id="current-date">October 11, 2024</h1>
+                    <p id="current-day">Friday</p>
+                </div>
+                <div class="navigation">
+                    <button class="nav-btn prev-day">&lt;</button>
+                    <button class="nav-btn next-day">&gt;</button>
+                </div>
+            </header>
+            
+            <div class="day-content">
+                <div class="timeline" id="timeline">
+                    <!-- Hours will be dynamically generated with JavaScript -->
+                </div>
+                
+                <div class="notepad">
+                    <div class="notepad-header">
+                        <h2>Notepad</h2>
+                    </div>
+                    <div class="notepad-content">
+                        <ul id="notes-list">
+                            <!-- Notes will be saved here -->
+                        </ul>
+                        <textarea id="notes-input" placeholder="Add notes here..."></textarea>
+                    </div>
+                    <div class="notepad-actions">
+                        <button id="save-notes" class="save-btn">ADD NOTE</button>
+                        <button id="clear-note" class="clear-btn">CLEAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Modal -->
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Event</h2>
+            <form id="event-form">
+                <div class="form-group">
+                    <label for="event-title">Event Title:</label>
+                    <input type="text" id="event-title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-start">Start Time:</label>
+                    <select id="event-start" required>
+                        <!-- Options will be generated with JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-end">End Time:</label>
+                    <select id="event-end" required>
+                        <!-- Options will be generated with JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-location">Location:</label>
+                    <input type="text" id="event-location">
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-type">Event Type:</label>
+                    <select id="event-type">
+                        <option value="event-work">Work</option>
+                        <option value="event-meeting">Meeting</option>
+                        <option value="event-personal">Personal</option>
+                        <option value="event-assignment">Assignment</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="submit-btn">Add Event</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Note Edit Modal -->
+    <div id="note-edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Note</h2>
+            <form id="note-edit-form">
+                <div class="form-group">
+                    <label for="note-edit-content">Note Content:</label>
+                    <textarea id="note-edit-content" required></textarea>
+                </div>
+                
+                <input type="hidden" id="note-edit-index" value="">
+                
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Update Note</button>
+                    <button type="button" id="delete-note" class="delete-btn">Delete Note</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="day-view.js"></script>
+</body>
+</html>

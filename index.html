@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Coordinated Calendar UI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>My Calendar</h1>
+    </div>
+
+    <div class="container">
+        <div class="calendar-controls">
+            <div class="month-navigation">
+                <button id="prev-month">&lt;</button>
+                <h2 id="current-month">October 2024</h2>
+                <button id="next-month">&gt;</button>
+            </div>
+            <button class="add-event-btn" id="add-general-task">Add Task</button>
+            <button class="link-button">Link to Canvas Calendar</button>
+        </div>
+
+        <div class="calendar-grid">
+            <!-- Days of the week headers -->
+            <div class="day-of-week">Sun</div>
+            <div class="day-of-week">Mon</div>
+            <div class="day-of-week">Tue</div>
+            <div class="day-of-week">Wed</div>
+            <div class="day-of-week">Thu</div>
+            <div class="day-of-week">Fri</div>
+            <div class="day-of-week">Sat</div>
+            
+            <!-- Days will be dynamically generated with JavaScript -->
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Task</h2>
+            <form id="task-form">
+                <div class="form-group">
+                    <label for="task-title">Task Title:</label>
+                    <input type="text" id="task-title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="task-date">Date:</label>
+                    <input type="date" id="task-date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="task-type">Task Type:</label>
+                    <select id="task-type">
+                        <option value="meeting">Meeting</option>
+                        <option value="assignment">Assignment</option>
+                        <option value="project">Project</option>
+                        <option value="work">Work</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Priority:</label>
+                    <div class="star-rating">
+                        <span class="star" data-rating="1">★</span>
+                        <span class="star" data-rating="2">★</span>
+                        <span class="star" data-rating="3">★</span>
+                    </div>
+                    <input type="hidden" id="task-priority" value="0">
+                </div>
+                
+                <button type="submit" class="submit-btn">Add Task</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
