@@ -16,6 +16,6 @@ This project demonstrates the design process from user data all the way to a wor
 
 * After creating low-fidelity prototypes, we created a high-fidelity prototype using Figma to have an interactive UI that demonstrates user interaction with the final design. 
 This prototype is not the final product, I am personally continuing with the project. 
-## Step 4: Creating final product 
+## Step 4: Creating the final product 
 
-*Using the high-fidelity prototype, I transitioned the figma project into a web application utilizing HTML/CSS/JS. I have individually worked on this project and will continue to implement and commit changes. The files and commits can be seen above. 
+* Using the high-fidelity prototype, I transitioned the figma project into a web application utilizing HTML/CSS/JS. I have individually worked on this project and will continue to implement and commit changes. The files and commits can be seen above. 
