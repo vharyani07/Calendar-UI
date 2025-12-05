@@ -247,8 +247,9 @@ function createDayElement(dayNumber, differentMonth, month, year) {
     // Add click event to navigate to day view
     dayElement.addEventListener('click', function() {
         // Navigate to day view with the date as a parameter
-        const monthForUrl = month + 1; // JavaScript months are 0-indexed
-        window.location.href = `day-view.html?date=${year}-${monthForUrl}-${dayNumber}`;
+        const monthForUrl = String(month + 1).padStart(2, '0'); // JavaScript months are 0-indexed
+        const dayForUrl = String(dayNumber).padStart(2, '0');
+        window.location.href = `day-view.html?date=${year}-${monthForUrl}-${dayForUrl}`;
     });
     
     return dayElement;

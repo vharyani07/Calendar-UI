@@ -415,6 +415,10 @@ body {
     background-color: #ff9500;
 }
 
+.event-assignment {
+    background-color: #fbbc04;
+}
+
 .notepad {
     flex: 2;
     display: flex;

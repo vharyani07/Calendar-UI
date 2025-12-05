@@ -179,8 +179,8 @@ function generateTimeline() {
         createHourSlot(`${i} am`);
     }
     
-    // PM hours
-    for (let i = 1; i <= 11; i++) {
+    // PM hours (including 12pm/noon)
+    for (let i = 1; i <= 12; i++) {
         createHourSlot(`${i} pm`);
     }
 }
@@ -202,12 +202,18 @@ function openEventModal(startTime, date) {
     
     // Calculate a reasonable end time (1 hour after start)
     const startIndex = getHourIndex(startTime);
-    const endIndex = (startIndex + 1) % 23; // Wrap around if needed
-    
-    // Find the option with the end time
     const endSelect = document.getElementById('event-end');
-    if (endSelect.options.length > endIndex) {
-        endSelect.value = endSelect.options[endIndex].value;
+    const maxIndex = endSelect.options.length - 1;
+    
+    // Only set end time if there's a next hour available
+    if (startIndex < maxIndex) {
+        const endIndex = startIndex + 1;
+        if (endSelect.options.length > endIndex) {
+            endSelect.value = endSelect.options[endIndex].value;
+        }
+    } else {
+        // If at the last hour, set end time to the same as start
+        endSelect.value = startTime;
     }
     
     // Show modal
@@ -229,8 +235,8 @@ function generateTimeOptions() {
         addTimeOption(endSelect, timeLabel);
     }
     
-    // Generate PM options
-    for (let i = 1; i <= 11; i++) {
+    // Generate PM options (including 12pm/noon)
+    for (let i = 1; i <= 12; i++) {
         const timeLabel = `${i} pm`;
         addTimeOption(startSelect, timeLabel);
         addTimeOption(endSelect, timeLabel);
@@ -311,15 +317,20 @@ function getHourIndex(timeString) {
     const [hour, period] = timeString.split(' ');
     let hourNum = parseInt(hour);
     
-    if (period === 'pm' && hourNum !== 12) {
-        hourNum += 12;
-    } else if (period === 'am' && hourNum === 12) {
-        hourNum = 0;
+    // Timeline: 1am-12am (indices 0-11), then 1pm-12pm (indices 12-23)
+    if (period === 'am') {
+        // AM hours: 1am=0, 2am=1, ..., 11am=10, 12am=11
+        if (hourNum === 12) {
+            return 11; // 12am is the 12th AM slot (index 11)
+        }
+        return hourNum - 1; // 1am=0, 2am=1, etc.
+    } else {
+        // PM hours: 1pm=12, 2pm=13, ..., 11pm=22, 12pm=23
+        if (hourNum === 12) {
+            return 23; // 12pm is the 12th PM slot (index 23)
+        }
+        return 11 + hourNum; // 1pm=12, 2pm=13, etc.
     }
-    
-    // Convert 24-hour format to index (1am is index 0)
-    if (hourNum === 0) return 11; // 12am
-    return hourNum - 1;
 }
 
 // Note management functions
