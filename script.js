@@ -147,11 +147,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+function adjustMonthFontSize() {
+    const monthElement = document.getElementById('current-month');
+    const maxWidth = 180; // Match the fixed width from CSS
+    let fontSize = 1.5; // Start with 1.5em
+    
+    monthElement.style.fontSize = `${fontSize}em`;
+    
+    // Reduce font size if text overflows
+    while (monthElement.scrollWidth > maxWidth && fontSize > 0.8) {
+        fontSize -= 0.1;
+        monthElement.style.fontSize = `${fontSize}em`;
+    }
+}
+
 function renderCalendar(month, year) {
     // Update month and year display
     const monthNames = ["January", "February", "March", "April", "May", "June",
                        "July", "August", "September", "October", "November", "December"];
     document.getElementById('current-month').textContent = `${monthNames[month]} ${year}`;
+    
+    // Adjust font size to fit between arrows
+    adjustMonthFontSize();
     
     // Get first day of month and total days in month
     const firstDay = new Date(year, month, 1).getDay();
@@ -306,25 +323,36 @@ function initializeStarRating(selector, hiddenInputId) {
             currentRating = rating;
             document.getElementById(hiddenInputId).value = rating;
             
+            // Set active class on clicked star and all stars to the left (lower ratings)
             stars.forEach(s => {
                 const starRating = parseInt(s.getAttribute('data-rating'));
-                s.classList.toggle('active', starRating <= rating);
+                if (starRating <= rating) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+                s.classList.remove('hover'); // Remove hover class on click
             });
         });
         
         star.addEventListener('mouseover', function() {
             const rating = parseInt(this.getAttribute('data-rating'));
             
+            // Show hover effect on hovered star and all stars to the left (lower ratings)
             stars.forEach(s => {
                 const starRating = parseInt(s.getAttribute('data-rating'));
-                s.classList.toggle('active', starRating <= rating);
+                if (starRating <= rating) {
+                    s.classList.add('hover');
+                } else {
+                    s.classList.remove('hover');
+                }
             });
         });
         
         star.addEventListener('mouseout', function() {
+            // Remove hover effect, keep only active (clicked) stars yellow
             stars.forEach(s => {
-                const starRating = parseInt(s.getAttribute('data-rating'));
-                s.classList.toggle('active', starRating <= currentRating);
+                s.classList.remove('hover');
             });
         });
     });
@@ -335,6 +363,7 @@ function resetStarRating(selector) {
     const stars = document.querySelectorAll(selector);
     stars.forEach(star => {
         star.classList.remove('active');
+        star.classList.remove('hover');
     });
 }
 
@@ -345,7 +374,12 @@ function setStarRating(selector, hiddenInputId, rating) {
     
     stars.forEach(star => {
         const starRating = parseInt(star.getAttribute('data-rating'));
-        star.classList.toggle('active', starRating <= rating);
+        if (starRating <= rating) {
+            star.classList.add('active');
+        } else {
+            star.classList.remove('active');
+        }
+        star.classList.remove('hover');
     });
 }
 

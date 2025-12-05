@@ -110,17 +110,16 @@ body {
 }
 
 .star {
-    color: #ddd;
+    color: #ddd !important;
     transition: color 0.2s;
 }
 
 .star.active {
-    color: #ffb400;
+    color: #ffb400 !important;
 }
 
-.star:hover,
-.star:hover ~ .star {
-    color: #ffb400;
+.star.hover {
+    color: #ffb400 !important;
 }
 
 /* Monthly Calendar View Styles */
@@ -161,11 +160,21 @@ body {
     border-radius: 50%;
     cursor: pointer;
     font-size: 16px;
+    flex-shrink: 0; /* Prevent buttons from shrinking */
 }
 
 .calendar-controls h2 {
     margin: 0;
+    width: 180px; /* Fixed width to keep arrows in place */
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#current-month {
     font-size: 1.5em;
+    /* Font will automatically adjust if text is too long due to text-overflow */
 }
 
 .link-button {
@@ -281,7 +290,7 @@ body {
 .priority {
     font-size: 0.75em;
     margin-top: 5px;
-    color: #5f6368;
+    color: white;
 }
 
 .star {
