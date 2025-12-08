@@ -2,10 +2,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get date from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const dateParam = urlParams.get('date');
-    let selectedDate = dateParam ? new Date(dateParam) : new Date();
+    let selectedDate;
     
-    // Check if date is valid, otherwise use current date
-    if (isNaN(selectedDate.getTime())) {
+    if (dateParam) {
+        // Parse YYYY-MM-DD format manually to avoid timezone issues
+        const [year, month, day] = dateParam.split('-').map(Number);
+        selectedDate = new Date(year, month - 1, day);
+        
+        // Check if date is valid
+        if (isNaN(selectedDate.getTime())) {
+            selectedDate = new Date();
+        }
+    } else {
         selectedDate = new Date();
     }
     
@@ -20,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize notepad
     loadNotes(selectedDate);
+    
+    // Load tasks for this day
+    loadTasks(selectedDate);
     
     // Event listeners
     document.getElementById('save-notes').addEventListener('click', function() {
@@ -589,4 +600,55 @@ function navigateDay(offset, currentDate) {
     // Update URL with new date
     const dateString = formatDateForStorage(newDate);
     window.location.href = `day-view.html?date=${dateString}`;
+}
+
+// Task management functions
+function loadTasks(date) {
+    const dateString = formatDateForStorage(date);
+    const allTasks = getAllTasks();
+    const dayTasks = allTasks.filter(task => task.date === dateString);
+    displayTasks(dayTasks);
+}
+
+function getAllTasks() {
+    const tasksJSON = localStorage.getItem('calendar_tasks');
+    return tasksJSON ? JSON.parse(tasksJSON) : [];
+}
+
+function displayTasks(tasks) {
+    const tasksContent = document.getElementById('tasks-content');
+    tasksContent.innerHTML = '';
+    
+    if (tasks.length === 0) {
+        const emptyMessage = document.createElement('p');
+        emptyMessage.className = 'no-tasks-message';
+        emptyMessage.textContent = 'No tasks assigned for this day.';
+        tasksContent.appendChild(emptyMessage);
+        return;
+    }
+    
+    tasks.forEach((task, index) => {
+        const taskElement = createTaskElement(task, index);
+        tasksContent.appendChild(taskElement);
+    });
+}
+
+function createTaskElement(task, index) {
+    const taskDiv = document.createElement('div');
+    taskDiv.className = `task-item ${task.type}`;
+    
+    const priorityStars = '★'.repeat(parseInt(task.priority) || 0);
+    const priorityText = task.priority > 0 ? `Priority: ${priorityStars}` : '';
+    
+    taskDiv.innerHTML = `
+        <div class="task-content">
+            <strong class="task-title">${task.title}</strong>
+            <div class="task-meta">
+                <span class="task-type">${task.type.charAt(0).toUpperCase() + task.type.slice(1)}</span>
+                ${priorityText ? `<span class="task-priority">${priorityText}</span>` : ''}
+            </div>
+        </div>
+    `;
+    
+    return taskDiv;
 }

@@ -209,7 +209,21 @@ function renderCalendar(month, year) {
         const formattedDate = formatDateString(year, month, i);
         const dayTasks = getTasksForDate(formattedDate);
         
-        dayTasks.forEach(task => {
+        // Only show first 2 tasks, add +x indicator if there are more
+        const maxVisibleTasks = 2;
+        const visibleTasks = dayTasks.slice(0, maxVisibleTasks);
+        const additionalTasksCount = dayTasks.length - maxVisibleTasks;
+        
+        // Add +x indicator if there are more tasks
+        if (additionalTasksCount > 0) {
+            const moreTasksIndicator = document.createElement('div');
+            moreTasksIndicator.className = 'more-tasks-indicator';
+            moreTasksIndicator.textContent = `+${additionalTasksCount}`;
+            dayElement.appendChild(moreTasksIndicator);
+        }
+        
+        // Add visible tasks
+        visibleTasks.forEach(task => {
             const starRating = '★'.repeat(parseInt(task.priority));
             addEventToDay(dayElement, task, starRating);
         });
