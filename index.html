@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Color Coordinated Calendar UI</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="header">
         <h1>My Calendar</h1>
@@ -19,7 +21,6 @@
                 <button id="next-month">&gt;</button>
             </div>
             <button class="add-event-btn" id="add-general-task">Add Task</button>
-            <button class="link-button">Link to Canvas Calendar</button>
         </div>
 
         <div class="calendar-grid">
@@ -31,7 +32,7 @@
             <div class="day-of-week">Thu</div>
             <div class="day-of-week">Fri</div>
             <div class="day-of-week">Sat</div>
-            
+
             <!-- Days will be dynamically generated with JavaScript -->
         </div>
     </div>
@@ -46,12 +47,12 @@
                     <label for="task-title">Task Title:</label>
                     <input type="text" id="task-title" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="task-date">Date:</label>
                     <input type="date" id="task-date" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="task-type">Task Type:</label>
                     <select id="task-type">
@@ -61,7 +62,7 @@
                         <option value="work">Work</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
                     <label>Priority:</label>
                     <div class="star-rating">
@@ -71,7 +72,7 @@
                     </div>
                     <input type="hidden" id="task-priority" value="0">
                 </div>
-                
+
                 <button type="submit" class="submit-btn">Add Task</button>
             </form>
         </div>
@@ -87,12 +88,12 @@
                     <label for="task-edit-title">Task Title:</label>
                     <input type="text" id="task-edit-title" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="task-edit-date">Date:</label>
                     <input type="date" id="task-edit-date" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="task-edit-type">Task Type:</label>
                     <select id="task-edit-type">
@@ -102,7 +103,7 @@
                         <option value="work">Work</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
                     <label>Priority:</label>
                     <div class="star-rating" id="edit-star-rating">
@@ -112,9 +113,9 @@
                     </div>
                     <input type="hidden" id="task-edit-priority" value="0">
                 </div>
-                
+
                 <input type="hidden" id="task-edit-index" value="">
-                
+
                 <div class="form-actions">
                     <button type="submit" class="submit-btn">Update Task</button>
                     <button type="button" id="delete-task" class="delete-btn">Delete Task</button>
@@ -125,4 +126,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
