@@ -782,3 +782,44 @@ textarea:focus-visible {
         grid-template-columns: 1fr;
     }
 }
+
+/* PATCH: Modal animation + sizing (append to END of styles.css) */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalPopIn {
+    from {
+        transform: translateY(10px) scale(0.98);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.modal {
+    animation: modalFadeIn 160ms ease-out;
+}
+
+.modal-content {
+    animation: modalPopIn 180ms ease-out;
+    max-height: min(78vh, 720px);
+    overflow: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .modal,
+    .modal-content {
+        animation: none;
+    }
+}
