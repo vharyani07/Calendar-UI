@@ -823,3 +823,95 @@ textarea:focus-visible {
         animation: none;
     }
 }
+
+/* PATCH: Month grid interactive focus + affordances (append to END of styles.css) */
+.day {
+    outline: none;
+    min-height: 120px;
+}
+
+.day:focus-visible {
+    box-shadow: var(--focus);
+    border-color: rgba(96, 165, 250, 0.55);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.day:focus-within {
+    border-color: rgba(96, 165, 250, 0.35);
+}
+
+.event:focus-visible {
+    outline: none;
+    box-shadow: var(--focus);
+}
+
+/* PATCH: Modal close + form field states (append to END of styles.css) */
+.close {
+    padding: 6px 10px;
+    border-radius: 10px;
+}
+
+.close:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.close:focus-visible {
+    outline: none;
+    box-shadow: var(--focus);
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.form-group input:invalid,
+.form-group select:invalid,
+.form-group textarea:invalid {
+    border-color: rgba(239, 68, 68, 0.55);
+}
+
+/* PATCH: Star rating micro-interactions (append to END of styles.css) */
+.star-rating {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.star {
+    transform: translateY(0);
+    transition: color 0.2s ease, transform 0.12s ease, filter 0.12s ease;
+}
+
+.star-rating:hover .star {
+    filter: brightness(1.05);
+}
+
+.star:hover {
+    transform: translateY(-1px) scale(1.04);
+}
+
+/* PATCH: Prevent task list scrollbar from pushing content (append to END of styles.css) */
+.tasks-content {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+
+.tasks-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.tasks-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tasks-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+}
+
+.tasks-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
