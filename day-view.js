@@ -1,3 +1,23 @@
+/* === ADD-ONLY: DayViewApp namespace + date helpers === */
+(function () {
+    if (window.DayViewApp) return;
+
+    const parseYMD = (ymd) => {
+        if (!ymd) return null;
+        const p = String(ymd).split('-').map(Number);
+        if (p.length !== 3) return null;
+        const d = new Date(p[0], p[1] - 1, p[2]);
+        return isNaN(d.getTime()) ? null : d;
+    };
+
+    window.DayViewApp = {
+        parseYMD,
+        getDateParam: () => new URLSearchParams(window.location.search).get('date'),
+        byId: (id) => document.getElementById(id),
+        closest: (target, sel) => (target && target.closest ? target.closest(sel) : null)
+    };
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
     // Get date from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -42,6 +62,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.querySelector('.prev-day').addEventListener('click', function (e) {
+        // ADD-ONLY reroute: use DayViewApp helpers (old code remains below)
+        if (window.DayViewApp && typeof window.DayViewApp.getDateParam === 'function') {
+            const dateParam = window.DayViewApp.getDateParam();
+            const parsed = (typeof window.DayViewApp.parseYMD === 'function')
+                ? window.DayViewApp.parseYMD(dateParam)
+                : null;
+
+            const currentDate = parsed || new Date();
+            navigateDay(-1, currentDate);
+            return;
+        }
+
         e.preventDefault();
         // Get current date from URL to ensure we're using the latest date
         const currentUrlParams = new URLSearchParams(window.location.search);
@@ -61,6 +93,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.querySelector('.next-day').addEventListener('click', function (e) {
+        // ADD-ONLY reroute: use DayViewApp helpers (old code remains below)
+        if (window.DayViewApp && typeof window.DayViewApp.getDateParam === 'function') {
+            const dateParam = window.DayViewApp.getDateParam();
+            const parsed = (typeof window.DayViewApp.parseYMD === 'function')
+                ? window.DayViewApp.parseYMD(dateParam)
+                : null;
+
+            const currentDate = parsed || new Date();
+            navigateDay(1, currentDate);
+            return;
+        }
+
         e.preventDefault();
         // Get current date from URL to ensure we're using the latest date
         const currentUrlParams = new URLSearchParams(window.location.search);
