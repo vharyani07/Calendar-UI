@@ -18,4 +18,47 @@ This project demonstrates the design process from user data all the way to a wor
 This prototype is not the final product, I am personally continuing with the project. 
 ## Step 4: Creating the final product 
 
-* Using the high-fidelity prototype, I transitioned the figma project into a web application utilizing HTML/CSS/JS. I have personally worked on this project and will continue to implement and commit changes. The files and commits can be seen above. 
+* Using the high-fidelity prototype, I transitioned the figma project into a web application utilizing HTML/CSS/JS and React. I have personally worked on this project and will continue to implement and commit changes. The files and commits can be seen above.
+
+## Running the Application
+
+### React Application (Current Version)
+
+The calendar has been migrated to a modern React application with TypeScript and Tailwind CSS.
+
+**Prerequisites:**
+- Node.js (v16 or higher)
+- npm
+
+**Installation & Running:**
+
+```bash
+# Navigate to the React app directory
+cd react
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+The application will be available at **http://localhost:5173/**
+
+**Building for Production:**
+
+```bash
+npm run build
+```
+
+**Features:**
+- Month view with calendar grid
+- Day view with 24-hour timeline
+- Task management with priority ratings
+- Event scheduling with time validation
+- Per-day notes functionality
+- All data persisted in localStorage
+
+### Legacy Version
+
+The original HTML/CSS/JS implementation is available in the `/legacy` folder for reference.
