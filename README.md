@@ -20,6 +20,12 @@ This prototype is not the final product, I am personally continuing with the pro
 
 * Using the high-fidelity prototype, I transitioned the figma project into a web application utilizing HTML/CSS/JS and React. I have personally worked on this project and will continue to implement and commit changes. The files and commits can be seen above.
 
+## 🚀 Live Demo
+
+**Try the app now**: [https://vharyani07.github.io/Calendar-UI/](https://vharyani07.github.io/Calendar-UI/)
+
+The calendar is deployed on GitHub Pages and accessible from any device!
+
 ## Running the Application
 
 ### React Application (Current Version)
@@ -50,6 +56,16 @@ The application will be available at **http://localhost:5173/**
 ```bash
 npm run build
 ```
+
+**Deploying to GitHub Pages:**
+
+The app is automatically deployed to GitHub Pages. To update the live site:
+
+```bash
+npm run deploy
+```
+
+This will build the app and push it to the `gh-pages` branch.
 
 **Features:**
 - Month view with calendar grid

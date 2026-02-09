@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/components/dayview.tsx","./src/components/eventmodal.tsx","./src/components/monthview.tsx","./src/components/notemodal.tsx","./src/components/taskmodal.tsx","./src/hooks/uselocalstorage.ts","./src/types/calendar.ts","./src/utils/dateutils.ts","./src/utils/timeutils.ts"],"version":"5.9.3"}
