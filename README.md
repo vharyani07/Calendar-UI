@@ -24,9 +24,11 @@ This prototype is not the final product, I am personally continuing with the pro
 
 **Try the app now**: [https://vharyani07.github.io/Calendar-UI/](https://vharyani07.github.io/Calendar-UI/)
 
-The calendar is deployed on GitHub Pages and accessible from any device!
+The calendar is deployed on GitHub Pages and accessible from any device - no installation required!
 
-## Running the Application
+## Running Locally (For Development)
+
+Want to run it locally? Follow these steps:
 
 ### React Application (Current Version)
 
